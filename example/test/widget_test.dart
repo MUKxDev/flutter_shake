@@ -5,26 +5,32 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_shake/flutter_shake.dart';
 
-import 'package:example/main.dart';
+import '../lib/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Shake detection test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the DemoPage is displayed.
+    expect(find.byType(DemoPage), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Simulate a shake event.
+    final ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        // This is where you would verify the shake event.
+        // For example, you could check if a SnackBar is shown.
+        expect(find.text('Shake!'), findsOneWidget);
+      },
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Trigger the shake event.
+    detector.onPhoneShake();
+
+    // Clean up the detector.
+    detector.stopListening();
   });
 }

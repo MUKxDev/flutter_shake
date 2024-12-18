@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shake/shake.dart';
+import 'package:flutter_shake/flutter_shake.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +30,7 @@ class _DemoPageState extends State<DemoPage> {
   @override
   void initState() {
     super.initState();
+    // ignore: unused_local_variable
     ShakeDetector detector = ShakeDetector.autoStart(
       onPhoneShake: () {
         ScaffoldMessenger.of(context).showSnackBar(
